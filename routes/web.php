@@ -21,6 +21,10 @@ Route::get('/', function () {
     return view('frontend.home');
 });
 
+Route::get('privacy', function () {
+    return view('frontend.privacy');
+});
+
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
