@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CourseController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,3 +35,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::resource('users', UserController::class)->middleware(['auth']);
+
+Route::resource('courses', CourseController::class);
+
+Route::get('/change-password', [UserController::class, 'changePassword'])->name('change-password');
+Route::post('/change-password', [UserController::class, 'updatePassword'])->name('update-password');

@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{asset('frontendtheme/css/responsive.css')}}">
     <!-- color -->
     <link id="changeable-colors" rel="stylesheet" href="{{asset('frontendtheme/css/colors/orange.css')}}" />
-
+    @yield('css')
     <!-- Modernizer -->
     <script src="{{asset('frontendtheme/js/modernizer.js')}}"></script>
 

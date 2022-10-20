@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link href="{{asset('backendtheme/img/favicon.ico')}}" rel="icon">
@@ -29,6 +30,32 @@
 
     <!-- Template Stylesheet -->
     <link href="{{asset('backendtheme/css/style.css')}}" rel="stylesheet">
+
+    @yield('css')
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.options = {
+        'closeButton': true,
+        'debug': false,
+        'newestOnTop': false,
+        'progressBar': false,
+        'positionClass': 'toast-top-right',
+        'preventDuplicates': false,
+        'showDuration': '1000',
+        'hideDuration': '1000',
+        'timeOut': '5000',
+        'extendedTimeOut': '1000',
+        'showEasing': 'swing',
+        'hideEasing': 'linear',
+        'showMethod': 'fadeIn',
+        'hideMethod': 'fadeOut',
+        }
+    </script>
 </head>
 
 <body>
@@ -59,19 +86,19 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="dashboard" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <div class="nav-item dropdown">
+                    <a href="{{route('dashboard')}}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="#" class="dropdown-item">Buttons</a>
                             <a href="#" class="dropdown-item">Typography</a>
                             <a href="#" class="dropdown-item">Other Elements</a>
                         </div>
-                    </div>
-                    <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                    <a href="#" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
-                    <a href="#" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-                    <a href="#" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
+                    </div> -->
+                    <a href="{{url('users/'.Auth::user()->id)}}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Profile</a>
+                    <a href="{{route('users.index')}}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Users</a>
+                    <a href="{{route('courses.index')}}" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Courses</a>
+                    <!-- <a href="#" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -80,7 +107,7 @@
                             <a href="#" class="dropdown-item">404 Error</a>
                             <a href="#" class="dropdown-item">Blank Page</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </nav>
         </div>
@@ -97,11 +124,11 @@
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
+                <!-- <form class="d-none d-md-flex ms-4">
                     <input class="form-control bg-dark border-0" type="search" placeholder="Search">
-                </form>
+                </form> -->
                 <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
+                    <!-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-envelope me-lg-2"></i>
                             <span class="d-none d-lg-inline-flex">Message</span>
@@ -163,15 +190,15 @@
                             <hr class="dropdown-divider">
                             <a href="#" class="dropdown-item text-center">See all notifications</a>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="{{asset('backendtheme/img/user.jpg')}}" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">{{ Auth::user()->name }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="{{url('users/'.Auth::user()->id)}}" class="dropdown-item">My Profile</a>
+                            <a href="{{route('change-password')}}" class="dropdown-item">Change Password</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <a href="{{route('logout')}}" class="dropdown-item" onclick="event.preventDefault();
@@ -183,6 +210,7 @@
             </nav>
             <!-- Navbar End -->
 
+            @include('message.flash-message')
 
             @yield('content')
 
@@ -223,6 +251,7 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('backendtheme/js/main.js')}}"></script>
+    @yield('javascript')
 </body>
 
 </html>
