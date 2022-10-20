@@ -1,4 +1,4 @@
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100" style="background-image: url('frontendtheme/images/banner.jpg');">
+<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100" style="background-image: url('frontendtheme/images/banner.jpg');background-repeat: no-repeat; background-attachment: fixed; background-size: cover;">
     <div>
         <a class="navbar-brand js-scroll-trigger logo-header" href="/">
             <img src="{{asset('frontendtheme/images/logo.png')}}" alt="">
