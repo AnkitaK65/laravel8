@@ -79,9 +79,9 @@
                                         @auth
                                         <li class="{{ request()->is('dashboard') ? 'active' : '' }}"><a href="{{ url('/dashboard') }}">Dashboard</a></li>
                                         @else
-                                        <li class="{{ request()->is('login') ? 'active' : '' }}"><a href="{{ route('login') }}">Log in</a></li>                                        
+                                        <li class="{{ request()->is('login') ? 'active' : '' }}"><a href="{{ route('login') }}">Log in</a></li>
                                         @if (Route::has('register'))
-                                        <li class="{{ request()->is('register') ? 'active' : '' }}"><a href="{{ route('register') }}">Register</a></li>                                        
+                                        <li class="{{ request()->is('register') ? 'active' : '' }}"><a href="{{ route('register') }}">Register</a></li>
                                         @endif
                                         @endauth
                                     @endif
@@ -101,30 +101,88 @@
     <!-- end site-header -->
 
     @include('message.flash-message')
-    
+
     @yield('content')
 
     <div id="footer" class="footer-main">
         <div class="footer-news pad-top-100 pad-bottom-70 parallax">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
-                            <h2 class="ft-title color-white text-center"> Newsletter </h2>
-                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <h2 class="block-title text-center">
+                Contact Us
+            </h2>
+            <div class="container" data-aos="fade-up">
+                <div class="row mt-5">
+                    <div class="col-lg-4">
+                        <div class="info">
+                            <div class="address">
+                                <i class="bi bi-geo-alt"></i>
+                                <h4>Location:</h4>
+                                <p>A108 Adam Street, New York, NY 535022</p>
+                            </div>
+                            <div class="email">
+                                <i class="bi bi-envelope"></i>
+                                <h4>Email:</h4>
+                                <p>info@example.com</p>
+                            </div>
+                            <div class="phone">
+                                <i class="bi bi-phone"></i>
+                                <h4>Call:</h4>
+                                <p>+1 5589 55488 55s</p>
+                            </div>
                         </div>
-                        <form>
-                            <input type="email" placeholder="Enter your e-mail id">
-                            <a href="#" class="orange-btn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="col-lg-8 mt-5 mt-lg-0">
+                        <form method="POST" action="{{ route('contact.us.store') }}" id="contactUSForm" role="form" class="php-email-form">
+                            {{ csrf_field() }}
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ old('name') }}" required>
+                                    @if ($errors->has('name'))
+                                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                                    @endif
+                                </div>
+                                
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" value="{{ old('email') }}" required>
+                                    @if ($errors->has('email'))
+                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone No." value="{{ old('phone') }}" required>
+                                    @if ($errors->has('phone'))
+                                        <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                    @endif
+                                </div>
+                                
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ old('subject') }}" required>
+                                    @if ($errors->has('subject'))
+                                        <span class="text-danger">{{ $errors->first('subject') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <textarea class="form-control" name="message" rows="5" placeholder="Message" required>{{ old('message') }}</textarea>
+                                @if ($errors->has('message'))
+                                        <span class="text-danger">{{ $errors->first('message') }}</span>
+                                    @endif
+                            </div>
+                            <div class="my-3">
+                                @if(Session::has('success'))
+                                <div class="alert alert-success">
+                                    {{Session::get('success')}}
+                                </div>
+                                @endif
+                            </div>
+                            <div class="text-center"><button type="submit">Send Message</button></div>
                         </form>
                     </div>
-                    <!-- end col -->
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container -->
         </div>
-        <!-- end footer-news -->
+
         <div class="footer-box pad-top-70">
             <div class="container">
                 <div class="row">
