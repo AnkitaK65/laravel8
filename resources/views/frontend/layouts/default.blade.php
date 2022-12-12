@@ -15,6 +15,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Site Icons -->
     <link rel="shortcut icon" href="{{asset('frontendtheme/images/favicon.ico')}}" type="image/x-icon" />
@@ -29,6 +30,11 @@
     <!-- color -->
     <link id="changeable-colors" rel="stylesheet" href="{{asset('frontendtheme/css/colors/orange.css')}}" />
     @yield('css')
+    <style>
+        .text-danger {
+            color: red;
+        }
+    </style>
     <!-- Modernizer -->
     <script src="{{asset('frontendtheme/js/modernizer.js')}}"></script>
 
@@ -87,97 +93,93 @@
                                     @endif
                                 </ul>
                             </div>
-                            <!-- end nav-collapse -->
                         </nav>
-                        <!-- end navbar -->
                     </div>
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container-fluid -->
         </header>
-        <!-- end header -->
     </div>
-    <!-- end site-header -->
 
     @include('message.flash-message')
 
     @yield('content')
 
     <div id="footer" class="footer-main">
-        <div class="footer-news pad-top-100 pad-bottom-70 parallax">
-            <h2 class="block-title text-center">
-                Contact Us
-            </h2>
-            <div class="container" data-aos="fade-up">
-                <div class="row mt-5">
-                    <div class="col-lg-4">
-                        <div class="info">
-                            <div class="address">
-                                <i class="bi bi-geo-alt"></i>
-                                <h4>Location:</h4>
-                                <p>A108 Adam Street, New York, NY 535022</p>
-                            </div>
-                            <div class="email">
-                                <i class="bi bi-envelope"></i>
-                                <h4>Email:</h4>
-                                <p>info@example.com</p>
-                            </div>
-                            <div class="phone">
-                                <i class="bi bi-phone"></i>
-                                <h4>Call:</h4>
-                                <p>+1 5589 55488 55s</p>
+
+        <div class="team-main pad-top-100 pad-bottom-100 parallax">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                            <h2 class="block-title text-center">
+                                Contact Us
+                            </h2>
+                        </div>
+                        <div class="container" data-aos="fade-up">
+                            <div class="row mt-5">
+                                <div class="col-lg-2">
+                                </div>
+                                <div class="col-lg-8 mt-5 mt-lg-0">
+                                    <!-- <form method="POST" action="{{ route('contact.us.store') }}" id="contactUSForm" role="form" class="php-email-form"> -->
+                                    <form id="contactUSForm" role="form" class="php-email-form">
+                                        <!-- {{ csrf_field() }} -->
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ old('name') }}">
+                                                @if ($errors->has('name'))
+                                                <span id="nameErrorMsg" class="text-danger">{{ $errors->first('name') }}</span>
+                                                @endif
+                                            </div>
+
+                                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                                <input type="email" class="form-control" name="email" id="emailid" placeholder="Your Email" value="{{ old('email') }}">
+                                                @if ($errors->has('email'))
+                                                <span id="emailErrorMsg" class="text-danger">{{ $errors->first('email') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <input type="text" class="form-control" name="phone" id="phoneid" placeholder="Phone No." value="{{ old('phone') }}">
+                                                <span id="phoneErrorMsg" class="text-danger">{{ $errors->first('phone') }}</span>
+                                                @if ($errors->has('phone'))
+                                                <span id="phoneErrorMsg" class="text-danger">{{ $errors->first('phone') }}</span>
+                                                @endif
+                                            </div>
+
+                                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                                <input type="text" class="form-control" name="subject" id="subjectid" placeholder="Subject" value="{{ old('subject') }}">
+                                                @if ($errors->has('subject'))
+                                                <span id="subjectErrorMsg" class="text-danger">{{ $errors->first('subject') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <textarea class="form-control" id="messageid" name="message" rows="5" placeholder="Message">{{ old('message') }}</textarea>
+                                            @if ($errors->has('message'))
+                                            <span id="messageErrorMsg" class="text-danger">{{ $errors->first('message') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="my-3">
+                                            @if(Session::has('success'))
+                                            <div class="alert alert-success">
+                                                {{Session::get('success')}}
+                                            </div>
+                                            @endif
+                                        </div>
+                                        <div class="alert alert-success" role="alert" id="successMsg" style="display: none">
+                                            Thank you for getting in touch!
+                                        </div>
+                                        <div class="alert alert-failure" role="alert" id="errorMsg" style="display: none; background-color: #cda95c;" >
+                                        
+                                        </div>
+                                        <div class="text-center"><button id="submitbutton" type="submit">Send Message</button></div>
+                                    </form>
+                                </div>
+                                <div class="col-lg-2">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-8 mt-5 mt-lg-0">
-                        <form method="POST" action="{{ route('contact.us.store') }}" id="contactUSForm" role="form" class="php-email-form">
-                            {{ csrf_field() }}
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" value="{{ old('name') }}" required>
-                                    @if ($errors->has('name'))
-                                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                                    @endif
-                                </div>
-                                
-                                <div class="col-md-6 form-group mt-3 mt-md-0">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" value="{{ old('email') }}" required>
-                                    @if ($errors->has('email'))
-                                        <span class="text-danger">{{ $errors->first('email') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone No." value="{{ old('phone') }}" required>
-                                    @if ($errors->has('phone'))
-                                        <span class="text-danger">{{ $errors->first('phone') }}</span>
-                                    @endif
-                                </div>
-                                
-                                <div class="col-md-6 form-group mt-3 mt-md-0">
-                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ old('subject') }}" required>
-                                    @if ($errors->has('subject'))
-                                        <span class="text-danger">{{ $errors->first('subject') }}</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-group mt-3">
-                                <textarea class="form-control" name="message" rows="5" placeholder="Message" required>{{ old('message') }}</textarea>
-                                @if ($errors->has('message'))
-                                        <span class="text-danger">{{ $errors->first('message') }}</span>
-                                    @endif
-                            </div>
-                            <div class="my-3">
-                                @if(Session::has('success'))
-                                <div class="alert alert-success">
-                                    {{Session::get('success')}}
-                                </div>
-                                @endif
-                            </div>
-                            <div class="text-center"><button type="submit">Send Message</button></div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -223,11 +225,8 @@
                                         </a>
                                     </li>
                                 </ul>
-
                             </div>
-                            <!-- end footer-box-a -->
                         </div>
-                        <!-- end col -->
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="footer-box-b">
                                 <h3>New Menu</h3>
@@ -238,9 +237,7 @@
                                     <li><a href="#">Triple Truffle Trotters</a></li>
                                 </ul>
                             </div>
-                            <!-- end footer-box-b -->
                         </div>
-                        <!-- end col -->
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="footer-box-c">
                                 <h3>Contact Us</h3>
@@ -259,13 +256,10 @@
                                     <span><a href="#">support@foodfunday.com</a></span>
                                 </p>
                             </div>
-                            <!-- end footer-box-c -->
                         </div>
-                        <!-- end col -->
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <div class="footer-box-d">
                                 <h3>Opening Hours</h3>
-
                                 <ul>
                                     <li>
                                         <p>Monday - Thursday </p>
@@ -277,15 +271,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <!-- end footer-box-d -->
                         </div>
-                        <!-- end col -->
                     </div>
-                    <!-- end footer-in-main -->
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container -->
             <div id="copyright" class="copyright-main">
                 <div class="container">
                     <div class="row">
@@ -293,18 +282,11 @@
                             <h6 class="copy-title"> Copyright &copy; 2018 Food Funday is powered by <a href="https://themewagon.com/" target="_blank">ThemeWagon</a> </h6>
                         </div>
                     </div>
-                    <!-- end row -->
                 </div>
-                <!-- end container -->
             </div>
-            <!-- end copyright-main -->
         </div>
-        <!-- end footer-box -->
     </div>
-    <!-- end footer-main -->
-
     <a href="#" class="scrollup" style="display: none;">Scroll</a>
-
     <section id="color-panel" class="close-color-panel">
         <a class="panel-button gray2"><i class="fa fa-cog fa-spin fa-2x"></i></a>
         <!-- Colors -->
@@ -322,6 +304,61 @@
     <script src="{{asset('frontendtheme/js/bootstrap.min.js')}}"></script>
     <!-- ALL PLUGINS -->
     <script src="{{asset('frontendtheme/js/custom.js')}}"></script>
+
+    <script type="text/javascript">
+        $('#contactUSForm').on('submit', function(e) {
+            e.preventDefault();
+            $('#submitbutton').html('Sending..');
+            
+            let name = $('#name').val();
+            let email = $('#emailid').val();
+            let phone = $('#phoneid').val();
+            let subject = $('#subjectid').val();
+            let message = $('#messageid').val();
+
+            $.ajax({
+                url: "{{ route('contact.us.store') }}",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    subject: subject,
+                    message: message,
+                },
+                success: function(response) {
+                    $('#contactUSForm').trigger("reset");
+                    $('#submitbutton').html('Send Message');
+                    var x = document.getElementById("errorMsg");
+                    x.style.display = "none";
+                    $('#successMsg').show();
+                    $('#phoneErrorMsg').text('');
+                    console.log(response);
+                },
+                error: function(response) {
+                    $('#submitbutton').html('Send Message');
+                    $('#phoneErrorMsg').text('');
+                    var x = document.getElementById("successMsg");
+                    x.style.display = "none";
+                    $('#errorMsg').show();
+                    $('#nameErrorMsg').text(response.responseJSON.errors.name);
+                    $('#emailErrorMsg').text(response.responseJSON.errors.email);
+                    $('#phoneErrorMsg').text(response.responseJSON.errors.phone);
+                    $('#subjectErrorMsg').text(response.responseJSON.errors.subject);
+                    $('#messageErrorMsg').text(response.responseJSON.errors.message);
+                    var msg = response.responseJSON.errors;
+                    var errorString = '<ul>';
+                    $.each( msg, function( key, value) {
+                        errorString += '<li>' + value + '</li>';
+                    });
+                    errorString += '</ul>';
+                    var div = document.getElementById('errorMsg');
+                    div.innerHTML = errorString;
+                },
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -26,6 +26,7 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -35,8 +36,11 @@ class ContactController extends Controller
         ]);
 
         Contact::create($request->all());
-
-        return redirect('/#footer')
-            ->with(['success' => 'Thank you for contacting us. We will contact you shortly.']);
+        // message by request
+        // return redirect('/#footer')
+        //     ->with(['success' => 'Thank you for contacting us. We will contact you shortly.']);
+    
+        //Ajax call
+        return response()->json(['success'=>'Successfully']);
     }
 }
